@@ -108,7 +108,10 @@ export function createVariants<V extends VariantGroups>(config: VariantConfig<V>
 				continue
 			}
 
-			const raw = value !== undefined ? value : (config.defaults as Record<string, unknown> | undefined)?.[name]
+			const raw =
+				value !== undefined
+					? value
+					: (config.defaults as Record<string, unknown> | undefined)?.[name]
 			const selected = typeof raw === 'string' ? raw : undefined
 			resolved[name] = selected
 			if (selected !== undefined) {
@@ -118,7 +121,9 @@ export function createVariants<V extends VariantGroups>(config: VariantConfig<V>
 
 		if (config.compound) {
 			for (const rule of config.compound) {
-				const match = Object.entries(rule.when).every(([key, expected]) => resolved[key] === expected)
+				const match = Object.entries(rule.when).every(
+					([key, expected]) => resolved[key] === expected
+				)
 				if (match) parts.push(rule.classes)
 			}
 		}

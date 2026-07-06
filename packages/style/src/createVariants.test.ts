@@ -17,9 +17,7 @@ const button = createVariants({
 		destructive: 'text-rose-500'
 	},
 	defaults: { style: 'secondary', size: 'md' },
-	compound: [
-		{ when: { style: 'primary', destructive: true }, classes: 'bg-red-500 text-rose-50' }
-	]
+	compound: [{ when: { style: 'primary', destructive: true }, classes: 'bg-red-500 text-rose-50' }]
 })
 
 describe('createVariants', () => {

@@ -1,14 +1,18 @@
 {
-  "name": "opensky-style",
-  "type": "module",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "opensky-style-monorepo",
+	"private": true,
+	"type": "module",
+	"workspaces": [
+		"packages/*"
+	],
+	"devDependencies": {
+		"@socketsecurity/bun-security-scanner": "^1.1.2"
+	},
+	"scripts": {
+		"build": "bun run --cwd packages/style build",
+		"test": "bun run --cwd packages/style test",
+		"check": "bun run --cwd packages/style check",
+		"lint": "bun run --cwd packages/style lint",
+		"format": "bun run --cwd packages/style format"
+	}
 }

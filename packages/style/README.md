@@ -33,12 +33,15 @@ The `ClassValue` type matches what `createClass` accepts (and is compatible with
 Merges and processes CSS class names using clsx and tailwind-merge.
 
 **Parameters:**
+
 - `inputs` - Class values to merge (strings, objects, arrays)
 
 **Returns:**
+
 - String of merged and processed class names
 
 **Example:**
+
 ```typescript
 // Basic usage - Tailwind conflicts resolved
 createClass('text-lg', 'text-sm')
@@ -58,12 +61,15 @@ createClass('flex bg-red-500', 'bg-blue-500', preserveClass('custom-animation'))
 Marks classes to be preserved without Tailwind conflict resolution.
 
 **Parameters:**
+
 - `classes` - Class values to preserve
 
 **Returns:**
+
 - Preserved class object for use with createClass
 
 **Example:**
+
 ```typescript
 // Preserve custom animation class
 createClass('bg-red-500', preserveClass('custom-fade-in'))
@@ -79,6 +85,7 @@ createClass('flex', preserveClass(['animate-spin', isLoading && 'opacity-50']))
 Creates a typed variant function for a component. Define once at module scope, apply per render. The output is merged with tailwind-merge, so later sources win: `base` < variant groups (definition order) < `compound` rules.
 
 **Config:**
+
 - `base` - Classes always applied (first, so variants can override them)
 - `variants` - Variant group definitions:
   - Object values create multi-option variants (`size: { sm: '...', lg: '...' }`)
@@ -89,31 +96,30 @@ Creates a typed variant function for a component. Define once at module scope, a
 - `reset` - Classes returned instead of everything else when `unstyled: true` is passed
 
 **Returns a function** taking variant props and returning:
+
 - `classes` - Final merged class string
 - `[group]` - Resolved value per group, including applied defaults
 - `unstyled` - Whether the unstyled escape hatch was used
 
 ```typescript
 const button = createVariants({
-  base: 'px-4 py-2 font-medium rounded',
-  reset: 'p-0 bg-transparent',
-  variants: {
-    style: {
-      primary: 'bg-blue-500 text-white',
-      secondary: 'bg-gray-200 text-gray-800'
-    },
-    size: {
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg'
-    },
-    // String value = boolean toggle
-    disabled: 'opacity-50 cursor-not-allowed'
-  },
-  defaults: { style: 'secondary', size: 'md' },
-  compound: [
-    { when: { style: 'primary', size: 'lg' }, classes: 'shadow-lg hover:shadow-xl' }
-  ]
+	base: 'px-4 py-2 font-medium rounded',
+	reset: 'p-0 bg-transparent',
+	variants: {
+		style: {
+			primary: 'bg-blue-500 text-white',
+			secondary: 'bg-gray-200 text-gray-800'
+		},
+		size: {
+			sm: 'text-sm',
+			md: 'text-base',
+			lg: 'text-lg'
+		},
+		// String value = boolean toggle
+		disabled: 'opacity-50 cursor-not-allowed'
+	},
+	defaults: { style: 'secondary', size: 'md' },
+	compound: [{ when: { style: 'primary', size: 'lg' }, classes: 'shadow-lg hover:shadow-xl' }]
 })
 
 button({ style: 'primary', size: 'lg' })

@@ -1,38 +1,58 @@
 {
-  "name": "@opensky/style",
-  "author": "notnotjake",
-  "description": "Utilities for styling in svelte",
-  "version": "0.2.0",
-  "repository": {
-    "directory": "packages/style",
-    "type": "git",
-    "url": "https://github.com/open-sky-dev/opensky-style.git"
-  },
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "build": "bun build ./index.ts --outfile ./dist/index.js --format esm --packages external && tsc --project tsconfig.build.json",
-    "prepublishOnly": "bun run build"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.6.0"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "typescript": "^5.9.0"
-  }
+	"name": "@opensky/style",
+	"scripts": {
+		"test": "bun test src",
+		"check": "tsc --noEmit --project ./tsconfig.json",
+		"format": "oxfmt .",
+		"lint": "oxfmt --check . && eslint .",
+		"build": "bun build ./src/index.ts --outfile ./dist/index.js --format esm --packages external && tsc --project tsconfig.build.json && publint",
+		"prepack": "bun run build"
+	},
+	"description": "Utilities for styling in svelte",
+	"author": "notnotjake",
+	"version": "0.2.0",
+	"repository": {
+		"directory": "packages/style",
+		"type": "git",
+		"url": "git+https://github.com/open-sky-dev/opensky-style.git"
+	},
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.6.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@types/bun": "^1.3.14",
+		"eslint": "^10.6.0",
+		"globals": "^17.7.0",
+		"oxfmt": "^0.57.0",
+		"publint": "^0.3.21",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.62.1"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"keywords": [
+		"svelte",
+		"tailwind",
+		"variants",
+		"classes",
+		"styling",
+		"utility"
+	],
+	"type": "module",
+	"types": "./dist/index.d.ts"
 }

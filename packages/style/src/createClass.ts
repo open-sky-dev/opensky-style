@@ -5,15 +5,15 @@ import { twMerge } from 'tailwind-merge'
  * Helper function to mark non-Tailwind classes for preservation during class merging.
  * Classes marked with this function will not be processed by tailwind-merge and will
  * always be included in the final output.
- * 
+ *
  * @param {ClassValue} classes - The class names to preserve (strings, objects, arrays)
  * @returns {object} A preserved class object for use with createClass
- * 
+ *
  * @example
  * // Preserve custom animation class
  * createClass('bg-red-500', preserveClass('custom-fade-in'))
  * // Returns: "bg-red-500 custom-fade-in"
- * 
+ *
  * @example
  * // Preserve multiple classes conditionally
  * createClass('flex', preserveClass(['animate-spin', isLoading && 'opacity-50']))
@@ -24,7 +24,7 @@ export const preserveClass = (classes: ClassValue) => ({ __preserved: classes })
 /**
  * Merges and processes CSS class names using `clsx` and `tailwind-merge`,
  * while allowing preservation of specific non-Tailwind classes.
- * 
+ *
  * This function combines multiple class inputs, resolves Tailwind CSS conflicts
  * (keeping the last conflicting class), and preserves any classes marked with
  * preserveClass() without processing them through tailwind-merge.
