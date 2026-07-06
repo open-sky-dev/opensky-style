@@ -74,95 +74,80 @@ createClass('flex', preserveClass(['animate-spin', isLoading && 'opacity-50']))
 // Returns: "flex animate-spin opacity-50" (if isLoading is true)
 ```
 
-### createVariants(options, props)
+### createVariants(config)
 
-Creates a powerful variant system for components with support for base styles, variant groups, compound variants, and reset styles.
+Creates a typed variant function for a component. Define once at module scope, apply per render. The output is merged with tailwind-merge, so later sources win: `base` < variant groups (definition order) < `compound` rules.
 
-**Parameters:**
-- `options` - Configuration object containing:
-  - `base` - Base classes always applied
-  - `reset` - Classes applied when resetStyles is true
-  - `compound` - Array of compound variant rules
-  - `[variantGroup]` - Variant group definitions with options and optional `_default`
-- `props` - Props object containing variant selections and optional `resetStyles`
+**Config:**
+- `base` - Classes always applied (first, so variants can override them)
+- `variants` - Variant group definitions:
+  - Object values create multi-option variants (`size: { sm: '...', lg: '...' }`)
+  - String values create boolean toggles (`disabled: 'opacity-50'`)
+  - `classes` and `unstyled` are reserved names
+- `defaults` - Default option per group when the prop is omitted (a defined key, or raw classes)
+- `compound` - `{ when, classes }` rules: `classes` applies when every value in `when` matches the resolved variants
+- `reset` - Classes returned instead of everything else when `unstyled: true` is passed
 
-**Returns:**
-- Object containing:
-  - `classes` - Final merged class string
-  - `[variantProp]` - Selected variant values for each group
+**Returns a function** taking variant props and returning:
+- `classes` - Final merged class string
+- `[group]` - Resolved value per group, including applied defaults
+- `unstyled` - Whether the unstyled escape hatch was used
 
-**Example:**
 ```typescript
-// Define variants
-const buttonVariants = {
+const button = createVariants({
   base: 'px-4 py-2 font-medium rounded',
-  reset: 'p-0 bg-transparent border-0',
-  
-  // Multi-option variants
-  size: {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
-    _default: 'md'
+  reset: 'p-0 bg-transparent',
+  variants: {
+    style: {
+      primary: 'bg-blue-500 text-white',
+      secondary: 'bg-gray-200 text-gray-800'
+    },
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg'
+    },
+    // String value = boolean toggle
+    disabled: 'opacity-50 cursor-not-allowed'
   },
-  variant: {
-    primary: 'bg-blue-500 text-white',
-    secondary: 'bg-gray-200 text-gray-800',
-    danger: 'bg-red-500 text-white'
-  },
-  
-  // Boolean toggle variants (string values)
-  disabled: 'opacity-50 cursor-not-allowed',
-  elevated: 'shadow-lg',
-  
-  // Compound variants
+  defaults: { style: 'secondary', size: 'md' },
   compound: [
-    {
-      size: 'lg',
-      variant: 'primary',
-      classes: 'shadow-lg hover:shadow-xl'
-    }
+    { when: { style: 'primary', size: 'lg' }, classes: 'shadow-lg hover:shadow-xl' }
   ]
-}
-
-// Use in component
-const result = createVariants(buttonVariants, { size: 'lg', variant: 'primary' })
-// Returns: {
-//   classes: 'px-4 py-2 font-medium rounded text-lg bg-blue-500 text-white shadow-lg hover:shadow-xl',
-//   size: 'lg',
-//   variant: 'primary'
-// }
-
-// With reset
-const resetResult = createVariants(buttonVariants, { resetStyles: true })
-// Returns: {
-//   classes: 'p-0 bg-transparent border-0',
-//   size: '_reset',
-//   variant: '_reset'
-// }
-
-// With custom classes (not defined in options)
-const customResult = createVariants(buttonVariants, { variant: 'custom-gradient' })
-// Returns: {
-//   classes: 'px-4 py-2 font-medium rounded text-base custom-gradient',
-//   size: 'md', // default value
-//   variant: 'custom-gradient'
-// }
-
-// Using boolean toggles
-const toggleResult = createVariants(buttonVariants, { 
-  size: 'sm', 
-  variant: 'primary', 
-  disabled: true, 
-  elevated: true 
 })
-// Returns: {
-//   classes: 'px-4 py-2 font-medium rounded text-sm bg-blue-500 text-white opacity-50 cursor-not-allowed shadow-lg',
-//   size: 'sm',
-//   variant: 'primary',
-//   disabled: true,
-//   elevated: true
-// }
+
+button({ style: 'primary', size: 'lg' })
+// { classes: 'px-4 py-2 font-medium rounded bg-blue-500 text-white text-lg shadow-lg hover:shadow-xl',
+//   style: 'primary', size: 'lg', disabled: false, unstyled: false }
+
+button()
+// defaults applied: style: 'secondary', size: 'md'
+
+button({ style: 'bg-purple-500 underline' })
+// raw pass-through: values that aren't defined keys are applied as classes verbatim
+
+button({ unstyled: true })
+// { classes: 'p-0 bg-transparent', style: undefined, size: undefined, ... }
+```
+
+Everything is inferred from the config — option names autocomplete and invalid values are compile errors. Use `VariantProps` to type your component's props from the definition:
+
+```svelte
+<script lang="ts">
+  import { createClass, createVariants, type VariantProps } from '@opensky/style'
+
+  const button = createVariants({ /* ... */ })
+
+  type Props = {
+    children: Snippet
+    class?: ClassValue
+  } & VariantProps<typeof button>
+
+  let { children, class: classProp, ...variantProps }: Props = $props()
+  let variants = $derived(button(variantProps))
+</script>
+
+<button class={createClass(variants.classes, classProp)}>{@render children()}</button>
 ```
 
 ## Dependencies
