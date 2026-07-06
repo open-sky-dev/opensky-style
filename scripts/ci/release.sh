@@ -15,8 +15,8 @@ if [[ -n "${GITHUB_REF_NAME:-}" ]]; then
 	fi
 fi
 
-bun run check
-bun run build
+bun --bun run check
+bun --bun run build
 
 cd packages/style
 # npm (not bun) for the publish itself: trusted publishing (OIDC) needs npm CLI >= 11.5
