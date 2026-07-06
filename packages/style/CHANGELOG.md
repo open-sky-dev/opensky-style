@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0
+## [0.2.0]
 
 ### createVariants redesigned (breaking)
 
@@ -20,7 +20,7 @@ const button = createVariants({
 
 const v = button({ look: 'primary' })
 v.classes // merged class string
-v.size    // 'md' — resolved values include defaults
+v.size // 'md' — resolved values include defaults
 ```
 
 Migrating from 0.1.0:
@@ -46,6 +46,6 @@ New:
 - tailwind-merge floor raised to 3.6.0
 - `ClassValue` type re-exported (compatible with Svelte's `ClassValue` from `svelte/elements`) for typing component `class` props
 
-## 0.1.0
+## [0.1.0]
 
 Initial release: `createClass`, `preserveClass`, `createVariants`.
