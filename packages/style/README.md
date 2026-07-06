@@ -1,5 +1,7 @@
 # @opensky/style
 
+[![npm](https://img.shields.io/npm/v/@opensky/style)](https://www.npmjs.com/package/@opensky/style)
+
 A collection of utility functions for styling in Svelte applications with Tailwind CSS support.
 
 ## Installation

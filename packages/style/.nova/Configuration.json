@@ -1,8 +1,0 @@
-{
-	"eablokker.tabsSidebar.config.collapsedFolders": [],
-	"eablokker.tabsSidebar.config.customKindGroupsOrder": ["typescript", "json"],
-	"eablokker.tabsSidebar.config.customTabOrder": [
-		"file:\/\/\/Users\/jake\/Development\/utils\/opensky-create-class\/packages\/create-class\/index.ts",
-		"file:\/\/\/Users\/jake\/Development\/utils\/opensky-create-class\/packages\/create-class\/package.json"
-	]
-}
