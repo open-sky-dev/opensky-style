@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0]
+## [0.2.0] - 2026-07-06
 
 ### createVariants redesigned (breaking)
 
@@ -46,6 +46,6 @@ New:
 - tailwind-merge floor raised to 3.6.0
 - `ClassValue` type re-exported (compatible with Svelte's `ClassValue` from `svelte/elements`) for typing component `class` props
 
-## [0.1.0]
+## [0.1.0] - 2025-07-31
 
 Initial release: `createClass`, `preserveClass`, `createVariants`.
