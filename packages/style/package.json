@@ -2,7 +2,7 @@
   "name": "@opensky/style",
   "author": "notnotjake",
   "description": "Utilities for styling in svelte",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "directory": "packages/style",
     "type": "git",
@@ -12,33 +12,27 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "type": "module",
   "files": [
     "dist"
   ],
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
-    "build": "bun build ./index.ts --outfile ./dist/index.mjs --format esm --target node && bun build ./index.ts --outfile ./dist/index.js --format cjs --target node && tsc --project tsconfig.build.json",
+    "build": "bun build ./index.ts --outfile ./dist/index.js --format esm --packages external && tsc --project tsconfig.build.json",
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5"
-  },
-  "peerDependencies": {
-    "tailwindcss": "^4.1.11"
+    "typescript": "^5.9.0"
   }
 }

@@ -12,6 +12,18 @@ npm install @opensky/style
 
 ```typescript
 import { createClass, preserveClass, createVariants } from '@opensky/style'
+import type { ClassValue } from '@opensky/style'
+```
+
+The `ClassValue` type matches what `createClass` accepts (and is compatible with Svelte's `ClassValue` from `svelte/elements`) — useful for typing `class` props on components:
+
+```svelte
+<script lang="ts">
+	import { createClass, type ClassValue } from '@opensky/style'
+	let { class: classProp }: { class?: ClassValue } = $props()
+</script>
+
+<div class={createClass('flex gap-2', classProp)}>...</div>
 ```
 
 ## API
